@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://8s0ph3vk0nqx"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_nh5bg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ws4l"]
+albedo_color = Color(0.141176, 0.870588, 0.0431373, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_62vnh"]
+radius = 1.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ant3q"]
+radius = 1.0
+
+[node name="Player" type="CharacterBody3D"]
+collision_mask = 6
+script = ExtResource("1_nh5bg")
+
+[node name="Pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.970499, 0)
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Pivot"]
+radius = 1.0
+material = SubResource("StandardMaterial3D_6ws4l")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.987098, 0)
+shape = SubResource("SphereShape3D_62vnh")
+
+[node name="MobDetector" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MobDetector"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("SphereShape3D_ant3q")
+
+[connection signal="body_entered" from="MobDetector" to="." method="_on_mob_detector_body_entered"]
